@@ -23,6 +23,7 @@ func TestCallIterator_Count_Float(t *testing.T) {
 		}},
 		influxql.IteratorOptions{
 			Expr:       MustParseExpr(`count("value")`),
+			Condition:  MustParseExpr("value > 1"),
 			Dimensions: []string{"host"},
 			Interval:   influxql.Interval{Duration: 5 * time.Nanosecond},
 			Ordered:    true,
@@ -58,6 +59,7 @@ func TestCallIterator_Count_Integer(t *testing.T) {
 		}},
 		influxql.IteratorOptions{
 			Expr:       MustParseExpr(`count("value")`),
+			Condition:  MustParseExpr("value > 1"),
 			Dimensions: []string{"host"},
 			Interval:   influxql.Interval{Duration: 5 * time.Nanosecond},
 			Ordered:    true,
@@ -93,6 +95,7 @@ func TestCallIterator_Count_String(t *testing.T) {
 		}},
 		influxql.IteratorOptions{
 			Expr:       MustParseExpr(`count("value")`),
+			Condition:  MustParseExpr("value > 1"),
 			Dimensions: []string{"host"},
 			Interval:   influxql.Interval{Duration: 5 * time.Nanosecond},
 			Ordered:    true,
@@ -128,6 +131,7 @@ func TestCallIterator_Count_Boolean(t *testing.T) {
 		}},
 		influxql.IteratorOptions{
 			Expr:       MustParseExpr(`count("value")`),
+			Condition:  MustParseExpr("value > 1"),
 			Dimensions: []string{"host"},
 			Interval:   influxql.Interval{Duration: 5 * time.Nanosecond},
 			Ordered:    true,

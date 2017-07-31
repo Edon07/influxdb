@@ -976,6 +976,21 @@ func (opt *IteratorOptions) Zone(ns int64) (string, int64) {
 	return name, secToNs * int64(offset)
 }
 
+// IndexOnlyConditions returns true if the conditions specifies only time or tag conditions.
+func (opt *IteratorOptions) IndexOnlyConditions() bool {
+	onlyTime := true
+	WalkFunc(opt.Condition, func(n Node) {
+		if ex, ok := n.(*BinaryExpr); ok {
+			if lhs, ok := ex.LHS.(*VarRef); ok {
+				if lhs.Val != "time" && lhs.Type != Tag {
+					onlyTime = false
+				}
+			}
+		}
+	})
+	return onlyTime
+}
+
 // MarshalBinary encodes opt into a binary format.
 func (opt *IteratorOptions) MarshalBinary() ([]byte, error) {
 	return proto.Marshal(encodeIteratorOptions(opt))

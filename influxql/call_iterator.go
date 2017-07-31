@@ -37,6 +37,11 @@ func NewCallIterator(input Iterator, opt IteratorOptions) (Iterator, error) {
 	name := opt.Expr.(*Call).Name
 	switch name {
 	case "count":
+		// Count is optimized in the lower level storage to return an aggregate sum,
+		// per window, if there are no field conditions.
+		if opt.IndexOnlyConditions() {
+			return newSumIterator(input, opt)
+		}
 		return newCountIterator(input, opt)
 	case "min":
 		return newMinIterator(input, opt)
